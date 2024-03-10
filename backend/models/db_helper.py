@@ -2,6 +2,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 
 from backend.settings import db_url
 
+
 class DatabaseHelper:
     def __init__(self) -> None:
         self.engine = create_async_engine(
@@ -13,5 +14,6 @@ class DatabaseHelper:
             autoflush=False,
             expire_on_commit=False,
         )
+
 
 db_helper = DatabaseHelper()
