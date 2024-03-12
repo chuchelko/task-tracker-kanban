@@ -6,3 +6,4 @@ from backend.models.base_model import BaseModel
 class Comment(BaseModel):
     text = Column(String(500))
     user_id = Column(Integer, ForeignKey('users.id'))
+    task_id = Column(Integer, ForeignKey('tasks.id'))

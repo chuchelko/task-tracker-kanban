@@ -7,8 +7,8 @@ from backend.models.base_model import BaseModel
 class Task(BaseModel):
     name = Column(String(100))
     description = Column(String(500))
-    reviewers = relationship('Reviewer_Task', backref='task')
-    owners = relationship('Owner_Task', backref='task')
-    subscribers = relationship('Subscriber_Task', backref='task')
-    comments = relationship('Comment', backref='task')
-    labels = relationship('Label', backref='task')
+    reviewers = relationship('Reviewer_Task', backref='task', primaryjoin='Task.id == Reviewer_Task.task_id')
+    owners = relationship('Owner_Task', backref='task', primaryjoin='Task.id == Owner_Task.task_id')
+    subscribers = relationship('Subscriber_Task', backref='task', primaryjoin='Task.id == Subscriber_Task.task_id')
+    comments = relationship('Comment', backref='task', primaryjoin='Task.id == Comment.task_id')
+    labels = relationship('Label', backref='task', primaryjoin='Task.id == Label.task_id')

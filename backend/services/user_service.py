@@ -1,7 +1,10 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from backend.schemas.userdto import UserDto
+from backend.schemas.user import UserDto
 from backend.repositories.user import UserRepository
 
 
-async def create_user(db: AsyncSession, user_data: UserDto) -> UserDto:
-    return await UserRepository.create_user(db, user_data)
+async def create_user(
+        db: AsyncSession,
+        user_data: UserDto,
+        user_repository = UserRepository()) -> UserDto:
+    return await user_repository.create_user(db=db, user_data=user_data)
