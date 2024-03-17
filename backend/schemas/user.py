@@ -1,5 +1,6 @@
 from enum import Enum
-from pydantic import BaseModel
+from typing import Callable
+from pydantic import BaseModel, GetCoreSchemaHandler
 
 
 class Role(str, Enum):
@@ -10,4 +11,4 @@ class Role(str, Enum):
 class UserDto(BaseModel):
     password: str
     login: str
-    role: Role
+    role: str
