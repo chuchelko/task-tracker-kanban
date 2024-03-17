@@ -1,6 +1,6 @@
 from typing import List
 from backend.models.label import Label
-from backend.models.task import Task
+from backend.models.task import Task, TaskLabel
 from backend.models.users_tasks_relations import Participant_Task
 from backend.schemas.task import TaskCreateDto, TaskDto
 from sqlalchemy.ext.asyncio import AsyncSession

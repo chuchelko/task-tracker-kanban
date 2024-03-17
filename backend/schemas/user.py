@@ -11,4 +11,4 @@ class Role(str, Enum):
 class UserDto(BaseModel):
     password: str
     login: str
-    role: str
+    role: Role
