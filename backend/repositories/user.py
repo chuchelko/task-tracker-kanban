@@ -25,5 +25,5 @@ class UserRepository:
         users = result.scalars().all()
         return users
 
-    async def det_user_by_id(self, bd: AsyncSession, user_id: int) -> User | None:
-        return await bd.get(User, user_id)
+    async def get_user_by_id(self, db: AsyncSession, user_id: int) -> User | None:
+        return await db.get(User, user_id)
