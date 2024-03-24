@@ -12,3 +12,8 @@ class UserDto(BaseModel):
     password: str
     login: str
     role: Role
+
+
+class UserMainInfoDto(BaseModel):
+    id: int
+    name: str

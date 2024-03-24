@@ -12,5 +12,12 @@ router = APIRouter()
 async def create_user(user: UserDto, db: AsyncSession = Depends(db_helper.get_session)):
     return await user_service.create_user(db, user)
 
-# @router.get("/user")
-# async def get_user_info()
+
+@router.get("/user/get_all")
+async def get_all(db: AsyncSession = Depends(db_helper.get_session)):
+    return await user_service.get_all_users(db)
+
+
+@router.get("/user/get_by_id")
+async def get_by_id(user_id: int, db: AsyncSession = Depends(db_helper.get_session)):
+    return await user_service.get_user_by_id(db, user_id)
