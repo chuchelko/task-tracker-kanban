@@ -1,20 +1,17 @@
-from enum import Enum
-from typing import List
 from pydantic import BaseModel
-from backend.models.user import User
+from typing import List, Optional
 
-class TaskLabel(str, Enum):
-    HIGHT_PRIORITY = "Высокий приоритет"
-    LOW_PRIORITY = "Низкий приоритет"
-    IN_WORK = "В работе"
-    CODE_REVIEW = "Код ревью"
-    CREATED = "Создана"
+from backend.models.task import TaskLabel
 
-class Task(BaseModel):
+class TaskDto(BaseModel):
+    id: int
     name: str
-    description: str
-    reviewers: List[User]
-    owners: List[User]
-    subscribers: List[User]
-    comments: List[str]
-    labels: List[TaskLabel]
+    description: Optional[str]
+    participants: List[int]
+    comments: Optional[List[int]]
+    label: TaskLabel
+
+class TaskCreateDto(BaseModel):
+    name: str
+    participant: int
+    label: TaskLabel

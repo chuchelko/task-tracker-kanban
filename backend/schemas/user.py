@@ -1,6 +1,6 @@
 from enum import Enum
-from typing import List
-from pydantic import BaseModel
+from typing import Callable
+from pydantic import BaseModel, GetCoreSchemaHandler
 
 
 class Role(str, Enum):

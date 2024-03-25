@@ -6,9 +6,7 @@ __all__ = (
     "Task",
     "Label",
     "Comment",
-    "Reviewer_Task",
-    "Owner_Task",
-    "Subscriber_Task"
+    "Participant_Task"
 )
 
 from .base_model import BaseModel
@@ -17,4 +15,4 @@ from .user import User, UserRole
 from .task import Task
 from .label import Label
 from .comment import Comment
-from .users_tasks_relations import Reviewer_Task, Owner_Task, Subscriber_Task
+from .users_tasks_relations import Participant_Task
