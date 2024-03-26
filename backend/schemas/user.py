@@ -7,10 +7,14 @@ class Role(str, Enum):
     ADMIN = "Администратор"
     USER = "Пользователь"
 
+class UserCreateDto(BaseModel):
+    password: str
+    name: str
 
 class UserDto(BaseModel):
+    id: int
     password: str
-    login: str
+    name: str
     role: Role
 
 
