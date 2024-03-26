@@ -5,11 +5,12 @@ from datetime import datetime, timezone
 
 from fastapi import HTTPException
 from jose import JWTError
+from backend.schemas.user import UserMainInfoDto
 from backend.services.jwt_token_service import decode_jwt
 from backend.services import user_service
 
 
-async def authorize_user(token: str, db: AsyncSession):
+async def authorize_user(token: str, db: AsyncSession) -> UserMainInfoDto:
     try:
         payload = decode_jwt(token)
         print(payload)

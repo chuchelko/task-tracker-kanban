@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends, status
 
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.ext.asyncio import AsyncSession
-from backend.schemas.user import UserCreateDto
+from backend.schemas.user import UserCreateDto, UserMainInfoDto
 from backend.services import user_service
 from backend.models import db_helper
 from backend.services.authorization_service import authorize_user
@@ -16,7 +16,7 @@ async def create(user: UserCreateDto, db: AsyncSession = Depends(db_helper.get_s
     try:
         await user_service.create_user(db, user)
     except ValueError as e:
-        return HTTPException(
+        raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(e)
         )
@@ -27,10 +27,10 @@ async def get_all(db: AsyncSession = Depends(db_helper.get_session)):
 
 @router.post("/user/token")
 async def login_user_get_token(
-        form_data: OAuth2PasswordRequestForm = Depends(),
+        form_data: UserCreateDto,
         db: AsyncSession = Depends(db_helper.get_session)
     ):
-    user = await user_service.get(db, form_data.username, form_data.password)
+    user = await user_service.get(db, form_data.name, form_data.password)
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -45,5 +45,5 @@ async def login_user_get_token(
 async def get_by_token(
     db: AsyncSession = Depends(db_helper.get_session),
     token: str = Depends(reuseable_oauth)
-    ):
+    ) -> UserMainInfoDto:
     return await authorize_user(token=token, db=db)

@@ -21,3 +21,4 @@ class UserDto(BaseModel):
 class UserMainInfoDto(BaseModel):
     id: int
     name: str
+    role: Role

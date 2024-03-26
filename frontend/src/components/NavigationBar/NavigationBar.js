@@ -1,11 +1,39 @@
-import React from 'react';
+import React, { useState }  from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link, Outlet } from 'react-router-dom';
 
 function NavigationBar() {
   const isLoggedIn = () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('accessToken');
     return token ? true : false;
+  }
+
+  const [name, setName] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  async function setUserInfo() {
+    await fetch('http://localhost:8000/api/user', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + localStorage.getItem('accessToken') 
+        }
+      })
+      .then(resp => {
+        if(!resp.ok) {
+          return null
+        }
+        return resp.json()
+      })
+      .then(resp => {
+        if(resp) {
+          setName(resp.name)
+          setIsAdmin(resp.role.toUpperCase() == 'АДМИНИСТРАТОР')
+        }
+      })
+  }
+  if(localStorage.getItem('accessToken')) {
+    setUserInfo()
   }
 
   return (
@@ -24,6 +52,8 @@ function NavigationBar() {
         <Nav className="ml-auto">
           {!isLoggedIn() && <Nav.Link as={Link} to="/login">Вход</Nav.Link>}
           {!isLoggedIn() && <Nav.Link as={Link} to="/register">Регистрация</Nav.Link>}
+          {isLoggedIn() && isAdmin && <h5 style={{color:'blueviolet'}}>АДМИНИСТРАТОР</h5>}
+          {isLoggedIn() && <h4>здравствуй, {name}</h4>}
           {isLoggedIn() && <Nav.Link as={Link} to="/logout">Выход</Nav.Link>}
         </Nav>
       </Container>

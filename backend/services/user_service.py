@@ -7,6 +7,8 @@ from backend.models import User
 from backend.schemas.user import Role, UserCreateDto, UserDto, UserMainInfoDto
 from backend.repositories.user import UserRepository
 
+def _get_role(user_role)->Role:
+    return Role[str(user_role).split('.')[1].upper()]
 
 async def create_user(
     db: AsyncSession, user_data: UserCreateDto, user_repository=UserRepository()
@@ -18,12 +20,12 @@ async def get_all_users(
     db: AsyncSession, user_repository=UserRepository()
 ) -> Sequence[UserMainInfoDto]:
     users = await user_repository.get_all_user(db)
-    return [UserMainInfoDto(id=x.id, name=x.name) for x in users]
+    return [UserMainInfoDto(id=x.id, name=x.name, role=_get_role(x.user_role)) for x in users]
 
 
 async def get_main_info(id: int, db: AsyncSession, user_repository=UserRepository()):
     user = await user_repository.get_user_by_id(db=db, user_id=id)
-    return UserMainInfoDto(id=user.id, name=user.name)
+    return UserMainInfoDto(id=user.id, name=user.name, role=_get_role(user.user_role))
 
 
 async def get(
@@ -36,5 +38,5 @@ async def get(
         id=user.id,
         password=password,
         name=username,
-        role=Role[str(user.user_role).split('.')[1].upper()]
+        role=_get_role(user.user_role)
         )
