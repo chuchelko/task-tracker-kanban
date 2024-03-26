@@ -22,3 +22,8 @@ class LabelRepository:
 
     async def get_label_by_id(self, db: AsyncSession, label_id: int) -> Label | None:
         return await db.get(Label, label_id)
+
+    async def update_label(self, label_dto: Label, db: AsyncSession) -> Label:
+        await db.commit()
+        await db.refresh(label_dto)
+        return label_dto
