@@ -1,8 +1,12 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
-from sqlalchemy.dialects.postgresql import ENUM as PgEnum
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
 
 from backend.models.base_model import BaseModel
 
+
 class Label(BaseModel):
     name = Column(String)
-    task_id = Column(Integer, ForeignKey("tasks.id"))
+    task = relationship("Task", primaryjoin='Label.id == Task.label_id')
+
+    class Config:
+        arbitrary_types_allowed = True
