@@ -13,3 +13,6 @@
 ## ЗАПУСКАЕМ ФРОНТ
 > cd frontend
 > npm start
+
+## БИЛДИМ ОБРАЗЫ
+> sh docker-build.sh X.X.X
