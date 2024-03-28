@@ -16,8 +16,8 @@ async def create_task(
     token: str = Depends(reuseable_oauth),
     db: AsyncSession = Depends(db_helper.get_session),
 ):
-    user_id = await authorize_user(token, db)
-    return await task_service.create_task(db, task, user_id)
+    user = await authorize_user(token, db)
+    return await task_service.create_task(db, task, user.id)
 
 
 @router.put("/task/")
