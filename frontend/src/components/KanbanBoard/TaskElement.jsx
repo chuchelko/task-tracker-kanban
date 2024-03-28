@@ -1,13 +1,15 @@
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Form, Modal, Stack } from "react-bootstrap";
 import './KanbanBoard.css'
 import { useState } from "react";
+import CommentElement from "./CommentElement";
 
-const TaskElement = ({ data, board, setBoards, boards }) => {
+const TaskElement = ({ data, board, setBoards, boards, refreshBoards }) => {
 
   const [isDrag, setIsDrag] = useState(false)
 
   const [show, setShow] = useState(false);
-  
+  const [comment, setComment] = useState('');
+
   const handleClose = async () => {
     console.log(formData)
     const response = await fetch('http://localhost:8000/api/task/', {
@@ -19,10 +21,11 @@ const TaskElement = ({ data, board, setBoards, boards }) => {
       body: JSON.stringify(formData)
     });
     setShow(false);
+    refreshBoards();
   }
 
   const handleShow = async () => {
-    const response = await fetch('http://localhost:8000/api/task/'+data.id, {
+    const response = await fetch('http://localhost:8000/api/task/' + data.id, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -43,7 +46,7 @@ const TaskElement = ({ data, board, setBoards, boards }) => {
     label_id: 0,
     description: '',
     participants: [],
-    comments: []
+    comments: [{ user_id: 1, text: '' }] 
   });
 
   const handleChange = (event) => {
@@ -69,8 +72,14 @@ const TaskElement = ({ data, board, setBoards, boards }) => {
     return str.slice(0, num) + '...'
   }
 
-  function deleteClick(e) {
-    // ЗАПРОС ЕБАНУТЬ
+  async function deleteClick(e) {
+    const response = await fetch('http://localhost:8000/api/task/'+data.id+'/delete', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+      }
+    });
     const task = board.tasks.filter(t => t.id == data.id)[0]
     console.log(task)
     const taskIndex = board.tasks.indexOf(task)
@@ -85,6 +94,19 @@ const TaskElement = ({ data, board, setBoards, boards }) => {
     }))
   }
 
+  const handleDeleteComment = (comment) => {
+    const updatedComments = formData.comments.filter((c) => c !== comment);
+    setFormData({ ...formData, comments: updatedComments });
+  };
+
+  function addComment() {
+    if (comment.trim() !== '') {
+      const updatedComments = [...formData.comments, { user_id: 1, text: comment }];
+      setComment('');
+      setFormData({ ...formData, comments: updatedComments });
+    }
+    console.log(formData)
+  }
 
   return (
     <>
@@ -113,10 +135,29 @@ const TaskElement = ({ data, board, setBoards, boards }) => {
                 onChange={handleChange}
               />
             </Form.Group>
+            <Form.Group controlId="formComments">
+              <Form.Label>Комментарии</Form.Label>
+              {formData.comments.map((comment, index) => (
+                <CommentElement
+                  comment={comment}
+                  onDelete={handleDeleteComment}
+                />
+              ))}
+              <Stack direction="horizontal">
+                <Form.Control
+                  as="textarea"
+                  name="comments"
+                  className="p-3"
+                  onChange={(e) => setComment(e.target.value)}
+                />
+                <Button className="p-2" onClick={(e) => addComment()}>Добавить</Button>
+              </Stack>
+            </Form.Group>
+
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={setShow(false)}>
+          <Button variant="secondary" onClick={() => setShow(false)}>
             Закрыть
           </Button>
           <Button variant="primary" onClick={handleClose}>

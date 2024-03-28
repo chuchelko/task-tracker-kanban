@@ -1,7 +1,7 @@
 from typing import List, Sequence
 
 from sqlalchemy.orm import subqueryload, joinedload
-from sqlalchemy import select
+from sqlalchemy import select, delete
 from backend.models.comment import Comment
 from backend.models.task import Task
 from backend.models.users_tasks_relations import Participant_Task
@@ -34,7 +34,7 @@ class TaskRepository:
         return query.scalars()
 
     async def update_task(self, db: AsyncSession, task_data: TaskUpdateDto):
-        query = await db.execute(select(Task).filter(Task.id == task_data.id))
+        query = await db.execute(select(Task).options(joinedload(Task.participants), joinedload(Task.comments)).filter(Task.id == task_data.id))
         task = query.scalar()
         if task is None:
             raise ValueError("Таска не найдена")
@@ -45,20 +45,10 @@ class TaskRepository:
             task.label_id = task_data.label_id
         if task_data.description is not None:
             task.description = task_data.description
-        # if task_data.participants is not None:
-        #     # умоляю работай
-        #     # task.participants.extend(
-        #     #     [
-        #     #         Participant_Task(name=p.name, user_id=p.id, task_id=task_data.id)
-        #     #         for p in task_data.participants
-        #     #     ]
-        #     # )
+        task.comments.clear()
         if task_data.comments is not None:
-            # умоляю работай
-            task.comments = [
-                Comment(text=c.text, user_id=c.user_id, task_id=task_data.id)
-                for c in task_data.comments
-            ]
+            for c in task_data.comments:
+                task.comments.append(Comment(text=c.text, user_id=c.user_id, task_id=task_data.id))
 
         await db.commit()
 
@@ -69,3 +59,14 @@ class TaskRepository:
             .filter(Task.id == task_id)
         )
         return query.scalar()
+    
+    async def delete_task(self, db: AsyncSession, id: int):
+        await db.execute(
+            delete(Participant_Task)
+            .where(Participant_Task.task_id == id)
+        )
+        await db.execute(
+            delete(Task)
+            .where(Task.id == id)
+        )
+        await db.commit()

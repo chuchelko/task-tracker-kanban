@@ -42,7 +42,19 @@ async def get_task_info(
     await authorize_user(token, db)
     try:
         task = await task_service.get_task(db, id)
-        print('бля', task)
+        print('нахуй мы выбрали питон', task)
         return task
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+@router.get('/task/{id}/delete')
+async def delete(
+    id: int,
+    token: str = Depends(reuseable_oauth),
+    db: AsyncSession = Depends(db_helper.get_session),
+):
+    await authorize_user(token,db)
+    try:
+        return await task_service.delete_task(db, id)
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))

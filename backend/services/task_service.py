@@ -35,7 +35,10 @@ async def get_task(db: AsyncSession, id: int, task_repository=TaskRepository()):
             TaskUpdateParticipantDto(id=p.id, name=p.name) for p in task.participants
         ],
         comments=[
-            TaskUpdateCommentDto(user_id=c.user_id, text=c.text) for c in task.comments
+            TaskUpdateCommentDto(user_id=1, text=c.text) for c in task.comments
         ],
     )
     return taskupd
+
+async def delete_task(db: AsyncSession, id: int, task_repository=TaskRepository()):
+    await task_repository.delete_task(db, id)
