@@ -17,13 +17,17 @@ class TaskDto(BaseModel):
 class TaskUpdateCommentDto(BaseModel):
     user_id: int
     text: str
+
+class TaskUpdateParticipantDto(BaseModel):
+    id: int | None
+    name: str | None
     
 class TaskUpdateDto(BaseModel):
     id: int
     name: Optional[str] = None
     label_id: Optional[int] = None
     description: Optional[str] = None
-    participants: Optional[List[int]] = None
+    participants: Optional[List[TaskUpdateParticipantDto]] = None
     comments: Optional[List[TaskUpdateCommentDto]] = None
 
 class TaskCreateDto(BaseModel):

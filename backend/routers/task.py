@@ -16,8 +16,9 @@ async def create_task(
     token: str = Depends(reuseable_oauth),
     db: AsyncSession = Depends(db_helper.get_session),
 ):
-    await authorize_user(token, db)
-    return await task_service.create_task(db, task)
+    user_id = await authorize_user(token, db)
+    return await task_service.create_task(db, task, user_id)
+
 
 @router.put("/task/")
 async def update_task(
@@ -29,7 +30,19 @@ async def update_task(
     try:
         return await task_service.update_task(db, task)
     except ValueError as e:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=str(e)
-        )
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+
+@router.get("/task/{id}")
+async def get_task_info(
+    id: int,
+    token: str = Depends(reuseable_oauth),
+    db: AsyncSession = Depends(db_helper.get_session),
+):
+    await authorize_user(token, db)
+    try:
+        task = await task_service.get_task(db, id)
+        print('бля', task)
+        return task
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
