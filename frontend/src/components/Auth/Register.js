@@ -49,7 +49,7 @@ function Register() {
 
     try {
       const name = username;
-      const responseCreateUser = await fetch('http://'+socket_backend+'/api/user', {
+      const responseCreateUser = await fetch(`http://${socket_backend}/api/user/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -61,7 +61,7 @@ function Register() {
         throw new Error((await responseCreateUser.json()).detail);
       }
 
-      const responseToken = await fetch('http://'+socket_backend+'/api/user/token', {
+      const responseToken = await fetch(`http://${socket_backend}/api/user/token`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -13,7 +13,7 @@ const TaskElement = ({ data, board, setBoards, boards, refreshBoards }) => {
 
   const handleClose = async () => {
     console.log(formData)
-    const response = await fetch('http://'+socket_backend+'/api/task/', {
+    const response = await fetch(`http://${socket_backend}/api/task/`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ const TaskElement = ({ data, board, setBoards, boards, refreshBoards }) => {
   }
 
   const handleShow = async () => {
-    const response = await fetch('http://'+socket_backend+'/api/task/' + data.id, {
+    const response = await fetch(`http://${socket_backend}/api/task/${data.id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ const TaskElement = ({ data, board, setBoards, boards, refreshBoards }) => {
   }
 
   async function deleteClick(e) {
-    const response = await fetch('http://'+socket_backend+'/api/task/'+data.id+'/delete', {
+    const response = await fetch(`http://${socket_backend}/api/task/${data.id}/delete`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
