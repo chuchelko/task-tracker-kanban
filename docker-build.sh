@@ -16,7 +16,7 @@ fi
 TAG=$1
 
 # Собираем backend образ
-docker build -f dockerfiles/backend/Dockerfile --tag task-tracker-kanban:$TAG --platform linux/amd64 .
+docker build -f dockerfiles/backend/Dockerfile --tag backend:$TAG --platform linux/amd64 .
 
 # Собираем frontend образ
-docker build -f dockerfiles/frontend/Dockerfile --tag task-tracker-kanban:$TAG --platform linux/amd64 .
+docker build -f dockerfiles/frontend/Dockerfile --tag frontend:$TAG --platform linux/amd64 .
