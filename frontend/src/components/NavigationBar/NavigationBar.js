@@ -13,7 +13,7 @@ function NavigationBar() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   async function setUserInfo() {
-    const response = await fetch("http://"+socket_backend+"/api/user/token", {
+    const response = await fetch("http://"+socket_backend+"/api/user", {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ function NavigationBar() {
     setName(data.name)
     setIsAdmin(data.role.toUpperCase() == 'АДМИНИСТРАТОР')
   }
-  if(localStorage.getItem('accessToken')) {
+  if (localStorage.getItem('accessToken')) {
     setUserInfo()
   }
 

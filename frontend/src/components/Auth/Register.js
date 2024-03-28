@@ -49,7 +49,7 @@ function Register() {
 
     try {
       const name = username;
-      const responseCreateUser = await fetch("http://"+socket_backend+"/api/user/token", {
+      const responseCreateUser = await fetch("http://"+socket_backend+"/api/user", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

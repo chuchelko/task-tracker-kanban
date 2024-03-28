@@ -23,7 +23,7 @@ function KanbanBoard() {
     }
 
     async function getBoardsFromBack() {
-        return await fetch("http://"+socket_backend+"/api/user/token", {
+        return await fetch("http://"+socket_backend+"/api/label/get_all", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ function KanbanBoard() {
         if (newTaskName.trim().length === 0) {
             return;
         }
-        const userId = await fetch("http://"+socket_backend+"/api/user/token", {
+        const userId = await fetch("http://"+socket_backend+"/api/user", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ function KanbanBoard() {
             }
         }).then(async resp => await resp.json()).then(resp => resp.id)
 
-        await fetch("http://"+socket_backend+"/api/user/token", {
+        await fetch("http://"+socket_backend+"/api/task/", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ function KanbanBoard() {
         const oldBoardId = e.dataTransfer.getData("boardId");
         const oldBoard = boards.filter(b => b.id == oldBoardId)[0];
         const task = oldBoard.tasks.filter(t => t.id == taskId)[0];
-        await fetch("http://"+socket_backend+"/api/user/token", {
+        await fetch("http://"+socket_backend+"/api/task/", {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

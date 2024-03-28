@@ -48,8 +48,8 @@ const TaskElement = ({ data, board, setBoards, boards }) => {
       onDragEnd={(e) => dragEndHandler(e)}
     >
       <h className="task-text">{truncateString(data.name, 100)}</h>
-      <Button className='task-button task-delete-button' onClick={e => deleteClick(e, boards, board, data)}><p>❌</p></Button>
-      <Button className='task-button task-edit-button' onClick={}><p>✍️</p></Button>
+      <Button className='task-button task-delete-button' onClick={e => deleteClick(e, boards, board, data)}><p></p></Button>
+      <Button className='task-button task-edit-button'><p>✍️</p></Button>
     </div>
   );
 };
