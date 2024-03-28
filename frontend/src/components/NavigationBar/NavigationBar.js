@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link, Outlet } from 'react-router-dom';
-import root from './../../файл.расширение'
 
 function NavigationBar() {
   const isLoggedIn = () => {
