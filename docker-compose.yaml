@@ -1,7 +1,26 @@
 version: '3.8'
 
 services:
+  backend:
+    container_name: backend
+    image: backend:0.1.0
+    restart: always
+    ports:
+    - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/task_tracker_kanban
+
+  frontend:
+    container_name: frontend
+    image: frontend:0.1.0
+    restart: always
+    ports:
+    - "3000:3000"
+    environment:
+      - SOCKET_BACKEND: "backend:8000"
+
   db:
+    container_name: db
     image: postgres:13.3
     restart: always
     environment:

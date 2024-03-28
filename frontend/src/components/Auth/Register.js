@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import socket_backend from './../../Constants';
 
 import './Auth.css';
 import { Navigate } from 'react-router-dom';
@@ -48,7 +49,7 @@ function Register() {
 
     try {
       const name = username;
-      const responseCreateUser = await fetch('http://localhost:8000/api/user/', {
+      const responseCreateUser = await fetch("http://"+socket_backend+"/api/user/token", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -60,7 +61,7 @@ function Register() {
         throw new Error((await responseCreateUser.json()).detail);
       }
 
-      const responseToken = await fetch('http://localhost:8000/api/user/token', {
+      const responseToken = await fetch("http://"+socket_backend+"/api/user/token", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

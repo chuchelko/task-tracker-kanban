@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link, Navigate } from 'react-router-dom';
+import socket_backend from './../../Constants';
+
 
 import './Auth.css';
 
@@ -40,9 +42,10 @@ function Login() {
       return;
     }
 
+
     try {
       const name = username;
-      const response = await fetch('http://localhost:8000/api/user/token', {
+      const response = await fetch( "http://"+socket_backend+"/api/user/token", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

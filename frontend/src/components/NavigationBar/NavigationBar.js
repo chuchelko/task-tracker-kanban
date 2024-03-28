@@ -1,6 +1,7 @@
 import React, { useState }  from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link, Outlet } from 'react-router-dom';
+import socket_backend from './../../Constants';
 
 function NavigationBar() {
   const isLoggedIn = () => {
@@ -12,7 +13,7 @@ function NavigationBar() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   async function setUserInfo() {
-    await fetch('http://localhost:8000/api/user', {
+    await fetch("http://"+socket_backend+"/api/user/token", {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
