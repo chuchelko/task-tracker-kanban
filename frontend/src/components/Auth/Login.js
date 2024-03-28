@@ -45,7 +45,7 @@ function Login() {
 
     try {
       const name = username;
-      const response = await fetch("http://"+socket_backend+"/api/user/token", {
+      const response = await fetch('http://'+socket_backend+'/api/user/token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -13,7 +13,7 @@ function NavigationBar() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   async function setUserInfo() {
-    const response = await fetch("http://"+socket_backend+"/api/user", {
+    const response = await fetch('http://'+socket_backend+'/api/user', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

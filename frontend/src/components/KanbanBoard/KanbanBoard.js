@@ -23,7 +23,7 @@ function KanbanBoard() {
     }
 
     async function getBoardsFromBack() {
-        return await fetch("http://"+socket_backend+"/api/label/get_all", {
+        return await fetch('http://'+socket_backend+'/api/label/get_all', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ function KanbanBoard() {
         if (newTaskName.trim().length === 0) {
             return;
         }
-        const userId = await fetch("http://"+socket_backend+"/api/user", {
+        const userId = await fetch('http://'+socket_backend+'/api/user', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

@@ -2,6 +2,7 @@ import { Button, Form, Modal, Stack } from "react-bootstrap";
 import './KanbanBoard.css'
 import { useState } from "react";
 import CommentElement from "./CommentElement";
+import socket_backend from './../../Constants';
 
 const TaskElement = ({ data, board, setBoards, boards, refreshBoards }) => {
 
@@ -12,7 +13,7 @@ const TaskElement = ({ data, board, setBoards, boards, refreshBoards }) => {
 
   const handleClose = async () => {
     console.log(formData)
-    const response = await fetch('http://localhost:8000/api/task/', {
+    const response = await fetch('http://'+socket_backend+'/api/task/', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -25,7 +26,7 @@ const TaskElement = ({ data, board, setBoards, boards, refreshBoards }) => {
   }
 
   const handleShow = async () => {
-    const response = await fetch('http://localhost:8000/api/task/' + data.id, {
+    const response = await fetch('http://'+socket_backend+'/api/task/' + data.id, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -73,7 +74,7 @@ const TaskElement = ({ data, board, setBoards, boards, refreshBoards }) => {
   }
 
   async function deleteClick(e) {
-    const response = await fetch('http://localhost:8000/api/task/'+data.id+'/delete', {
+    const response = await fetch('http://'+socket_backend+'/api/task/'+data.id+'/delete', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
