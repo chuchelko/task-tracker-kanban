@@ -10,7 +10,7 @@ from backend.services.hashing_service import verify_password, get_hashed_passwor
 class UserRepository:
     async def create_user(self, db: AsyncSession, user_data: UserCreateDto):
         existing_user = await db.execute(select(User).filter(User.name == user_data.name))
-        if existing_user.fetchone()[0] is not None:
+        if existing_user.scalar() is not None:
             raise ValueError("Пользователь с таким именем уже существует.")
         new_user = User(
             hashed_password=get_hashed_password(user_data.password),
@@ -28,7 +28,7 @@ class UserRepository:
         return users
 
     async def get(self, db: AsyncSession, username, password) -> User:
-        user = (await db.execute(select(User).filter(User.name == username))).fetchone()[0]
+        user = (await db.execute(select(User).filter(User.name == username))).scalar()
         if(user is None or verify_password(password=password, hashed_pass=user.hashed_password) == False):
             return None
         return user

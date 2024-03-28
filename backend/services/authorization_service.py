@@ -13,7 +13,6 @@ from backend.services import user_service
 async def authorize_user(token: str, db: AsyncSession) -> UserMainInfoDto:
     try:
         payload = decode_jwt(token)
-        print(payload)
         if payload.get("exp") < datetime.now(timezone.utc).timestamp():
             raise HTTPException(
                     status_code = status.HTTP_401_UNAUTHORIZED,
