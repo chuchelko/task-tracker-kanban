@@ -3,6 +3,7 @@ import { FormControl, Stack } from 'react-bootstrap';
 import './KanbanBoard.css'
 import TaskElement from './TaskElement';
 import { Navigate } from 'react-router-dom';
+import socket_backend from './../../Constants';
 
 function KanbanBoard() {
     const [boards, setBoards] = useState([]);
@@ -22,7 +23,7 @@ function KanbanBoard() {
     }
 
     async function getBoardsFromBack() {
-        return await fetch('http://localhost:8000/api/label/get_all', {
+        return await fetch(`http://${socket_backend}/api/label/get_all`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,7 +42,7 @@ function KanbanBoard() {
         if (newTaskName.trim().length === 0) {
             return;
         }
-        const userId = await fetch('http://localhost:8000/api/user', {
+        const userId = await fetch(`http://${socket_backend}/api/user`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -49,7 +50,7 @@ function KanbanBoard() {
             }
         }).then(async resp => await resp.json()).then(resp => resp.id)
 
-        await fetch('http://localhost:8000/api/task/', {
+        await fetch(`http://${socket_backend}/api/task/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -84,7 +85,7 @@ function KanbanBoard() {
         const oldBoardId = e.dataTransfer.getData("boardId");
         const oldBoard = boards.filter(b => b.id == oldBoardId)[0];
         const task = oldBoard.tasks.filter(t => t.id == taskId)[0];
-        await fetch('http://localhost:8000/api/task/', {
+        await fetch(`http://${socket_backend}/api/task/`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
