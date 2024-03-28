@@ -126,7 +126,7 @@ function KanbanBoard() {
                                     handleInputChange(e, board.id);
                             }} />
                         {board.tasks.map(task =>
-                            <TaskElement data={task} board={board} setBoards={setBoards} boards={boards}></TaskElement>
+                            <TaskElement data={task} board={board} setBoards={setBoards} boards={boards} refreshBoards={initBoards}></TaskElement>
                         )}
                         <div></div>
                     </Stack>
