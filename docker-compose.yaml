@@ -10,7 +10,7 @@ services:
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/task_tracker_kanban
 
-frontend:
+  frontend:
     container_name: frontend
     image: frontend:0.1.0
     restart: always
