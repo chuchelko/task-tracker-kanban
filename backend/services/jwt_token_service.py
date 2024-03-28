@@ -3,7 +3,7 @@ from typing import Optional, Union, Any
 from fastapi import HTTPException
 from jose import JWTError, jwt
 
-__ACCESS_TOKEN_EXPIRE_MINUTES = 30  # 30 minutes
+__ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 30 minutes
 __REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7 # 7 days
 __ALGORITHM = "HS256"
 __JWT_SECRET_KEY = '20a9bfa73de3f29b6b7a01d4fc84bb569f1b7e8ac7f83c77c62a603f2bf9f5ff' #os.environ['JWT_SECRET_KEY'] <- после докера
